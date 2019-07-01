@@ -7,21 +7,52 @@ const setup = (initialState = {}) => {
 	const store = storeFactory(initialState);
 	const wrapper = shallow(<Input store={store} />).dive().dive();
 	//console.log(wrapper.debug());
+
+	return wrapper;
 };
 
 //setup();
 
 describe('render', () => {
 	describe('word has not been guest', () => {
-		it('render component withaut error', () => {});
-		it('render input box', () => {});
-		it('render submit button', () => {});
+		let wrapper;
+		beforeEach(() => {
+			const initialState = { success: false };
+			wrapper = setup(initialState);
+		});
+		it('render component withaut error', () => {
+			const component = findByAttr(wrapper, 'component-input');
+			expect(component.length).toBe(1);
+		});
+		it('render input box', () => {
+			const inputBox = findByAttr(wrapper, 'input-box');
+			expect(inputBox.length).toBe(1);
+		});
+		it('render submit button', () => {
+			const submitButton = findByAttr(wrapper, 'submit-button');
+			expect(submitButton.length).toBe(1);
+		});
 		it('', () => {});
 	});
 	describe('word has been guest', () => {
-		it('render component withaut error', () => {});
-		it('does not render input box', () => {});
-		it('does not render submit button', () => {});
+		let wrapper;
+		beforeEach(() => {
+			const initialState = { success: true };
+			wrapper = setup(initialState);
+		});
+		it('render component withaut error', () => {
+			const component = findByAttr(wrapper, 'component-input');
+			expect(component.length).toBe(1);
+			console.log(wrapper.debug());
+		});
+		it('does not render input box', () => {
+			const inputBox = findByAttr(wrapper, 'input-box');
+			expect(inputBox.length).toBe(0);
+		});
+		it('does not render submit button', () => {
+			const submitButton = findByAttr(wrapper, 'submit-button');
+			expect(submitButton.length).toBe(0);
+		});
 	});
 });
 
